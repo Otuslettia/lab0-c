@@ -38,7 +38,7 @@ void q_free(struct list_head *l)
 /* Insert an element at head of queue */
 bool q_insert_head(struct list_head *head, char *s)
 {
-    if (!head)
+    if (!head || !s)
         return false;
 
     element_t *s_new = malloc(sizeof(struct list_head));
@@ -58,7 +58,7 @@ bool q_insert_head(struct list_head *head, char *s)
 /* Insert an element at tail of queue */
 bool q_insert_tail(struct list_head *head, char *s)
 {
-    if (!head)
+    if (!head || !s)
         return false;
 
     element_t *s_new = malloc(sizeof(struct list_head));
