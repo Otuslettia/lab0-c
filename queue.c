@@ -35,21 +35,41 @@ void q_free(struct list_head *l)
     free(l);
 }
 
-/* Insert an element at head of queue */
-bool q_insert_head(struct list_head *head, char *s)
+/**
+ element_new_char() - Malloc a element_t with input char pointer point to it's
+ value.
+ @s: the pointer point to new element's value
+ The function use to malloc a element_t with input char pointer point to it's
+ value. If the pointer s is NULL or fail malloc, return NULL, otherwise,
+ return new element's pointer.
+ */
+element_t *element_new_char(char *s)
 {
-    if (!head || !s)
-        return false;
+    if (!s)
+        return NULL;
 
     element_t *s_new = malloc(sizeof(struct list_head));
     if (!s_new)
-        return false;
+        return NULL;
 
     s_new->value = strdup(s);
     if (!s_new->value) {
         free(s_new);
-        return false;
+        return NULL;
     }
+
+    return s_new;
+}
+
+/* Insert an element at head of queue */
+bool q_insert_head(struct list_head *head, char *s)
+{
+    if (!head)
+        return false;
+
+    element_t *s_new = element_new_char(s);
+    if (!s_new)
+        return false;
 
     list_add(&s_new->list, head);
     return true;
@@ -58,18 +78,12 @@ bool q_insert_head(struct list_head *head, char *s)
 /* Insert an element at tail of queue */
 bool q_insert_tail(struct list_head *head, char *s)
 {
-    if (!head || !s)
+    if (!head)
         return false;
 
-    element_t *s_new = malloc(sizeof(struct list_head));
+    element_t *s_new = element_new_char(s);
     if (!s_new)
         return false;
-
-    s_new->value = strdup(s);
-    if (!s_new->value) {
-        free(s_new);
-        return false;
-    }
 
     list_add_tail(&s_new->list, head);
     return true;
